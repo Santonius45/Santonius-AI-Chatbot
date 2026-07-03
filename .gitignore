@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+backend/.env
+
+# Virtual Environment
+venv/
+.venv/
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
