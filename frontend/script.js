@@ -12,17 +12,21 @@ const messageInput = document.getElementById("message");
 const sendBtn = document.getElementById("sendBtn");
 
 // ==========================================
+// URL Backend Railway
+// ==========================================
+
+const API_URL = "https://santonius-ai-chatbot-production.up.railway.app/chat";
+
+// ==========================================
 // Menambahkan Pesan ke Chat
 // ==========================================
 
 function addMessage(sender, text) {
 
     const message = document.createElement("div");
-
     message.className = "message " + sender;
 
     const bubble = document.createElement("div");
-
     bubble.className = "bubble";
 
     bubble.innerHTML = text.replace(/\n/g, "<br>");
@@ -44,64 +48,49 @@ async function sendMessage() {
     const message = messageInput.value.trim();
 
     if (message === "") {
-
         return;
-
     }
 
     // Tampilkan pesan user
-
     addMessage("user", message);
 
     // Kosongkan input
-
     messageInput.value = "";
 
     // Loading AI
-
     addMessage("ai", "⏳ AI sedang mengetik...");
 
     const loadingMessage = chatBox.lastElementChild;
 
     try {
 
-        const response = await fetch("http://127.0.0.1:8000/chat", {
+        const response = await fetch(API_URL, {
 
             method: "POST",
 
             headers: {
-
                 "Content-Type": "application/json"
-
             },
 
             body: JSON.stringify({
-
                 message: message
-
             })
 
         });
 
         if (!response.ok) {
-
             throw new Error("Server Error");
-
         }
 
         const data = await response.json();
 
         // Hapus loading
-
         loadingMessage.remove();
 
         // Tampilkan jawaban AI
-
         addMessage("ai", data.reply);
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         loadingMessage.remove();
 
@@ -110,7 +99,7 @@ async function sendMessage() {
             "❌ Gagal terhubung ke server."
         );
 
-        console.error(error);
+        console.error("Error:", error);
 
     }
 
@@ -121,21 +110,17 @@ async function sendMessage() {
 // ==========================================
 
 sendBtn.addEventListener("click", function () {
-
     sendMessage();
-
 });
 
 // ==========================================
-// Tombol Enter
+// Tekan Enter
 // ==========================================
 
 messageInput.addEventListener("keypress", function (event) {
 
     if (event.key === "Enter") {
-
         sendMessage();
-
     }
 
 });
@@ -145,7 +130,5 @@ messageInput.addEventListener("keypress", function (event) {
 // ==========================================
 
 window.onload = function () {
-
     messageInput.focus();
-
 };
