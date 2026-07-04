@@ -15,120 +15,292 @@ const sendBtn = document.getElementById("sendBtn");
 // URL Backend Railway
 // ==========================================
 
-const API_URL = "https://santonius-ai-chatbot-production.up.railway.app/chat";
+const API_URL =
+"https://santonius-ai-chatbot-production.up.railway.app/chat";
 
 // ==========================================
-// Menambahkan Pesan ke Chat
+// Smooth Scroll
 // ==========================================
 
-function addMessage(sender, text) {
+function scrollBottom(){
 
-    const message = document.createElement("div");
-    message.className = "message " + sender;
+    chatBox.scrollTo({
 
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
+        top: chatBox.scrollHeight,
 
-    bubble.innerHTML = text.replace(/\n/g, "<br>");
+        behavior:"smooth"
 
-    message.appendChild(bubble);
-
-    chatBox.appendChild(message);
-
-    chatBox.scrollTop = chatBox.scrollHeight;
+    });
 
 }
 
 // ==========================================
-// Mengirim Pesan ke Backend
+// Membuat Avatar
 // ==========================================
 
-async function sendMessage() {
+function createAvatar(sender){
 
-    const message = messageInput.value.trim();
+    const avatar = document.createElement("div");
 
-    if (message === "") {
-        return;
+    avatar.className = "avatar";
+
+    avatar.innerHTML =
+        sender === "ai"
+        ? "🤖"
+        : "👤";
+
+    return avatar;
+
+}
+
+// ==========================================
+// Membuat Bubble
+// ==========================================
+
+function createBubble(text){
+
+    const bubble = document.createElement("div");
+
+    bubble.className = "bubble";
+
+    bubble.innerHTML = text.replace(/\n/g,"<br>");
+
+    return bubble;
+
+}
+
+// ==========================================
+// Menambahkan Pesan
+// ==========================================
+
+function addMessage(sender,text){
+
+    const message = document.createElement("div");
+
+    message.className = "message " + sender;
+
+    if(sender==="ai"){
+
+        message.appendChild(createAvatar("ai"));
+
+        message.appendChild(createBubble(text));
+
     }
 
-    // Tampilkan pesan user
-    addMessage("user", message);
+    else{
 
-    // Kosongkan input
-    messageInput.value = "";
+        message.appendChild(createBubble(text));
 
-    // Loading AI
-    addMessage("ai", "⏳ AI sedang mengetik...");
+        message.appendChild(createAvatar("user"));
 
-    const loadingMessage = chatBox.lastElementChild;
+    }
 
-    try {
+    chatBox.appendChild(message);
 
-        const response = await fetch(API_URL, {
+    scrollBottom();
 
-            method: "POST",
+}
 
-            headers: {
-                "Content-Type": "application/json"
+// ==========================================
+// Loading Animation
+// ==========================================
+
+function addLoading(){
+
+    const loading = document.createElement("div");
+
+    loading.className = "message ai";
+
+    loading.id = "loading-message";
+
+    loading.innerHTML = `
+
+        <div class="avatar">
+
+            🤖
+
+        </div>
+
+        <div class="bubble">
+
+            <span class="typing">
+
+                <span></span>
+
+                <span></span>
+
+                <span></span>
+
+            </span>
+
+        </div>
+
+    `;
+
+    chatBox.appendChild(loading);
+
+    scrollBottom();
+
+}
+
+function removeLoading(){
+
+    const loading =
+    document.getElementById("loading-message");
+
+    if(loading){
+
+        loading.remove();
+
+    }
+
+}
+
+// ==========================================
+// Disable Input
+// ==========================================
+
+function lockInput(){
+
+    sendBtn.disabled = true;
+
+    messageInput.disabled = true;
+
+}
+
+function unlockInput(){
+
+    sendBtn.disabled = false;
+
+    messageInput.disabled = false;
+
+    messageInput.focus();
+
+}
+
+// ==========================================
+// Mengirim Pesan
+// ==========================================
+
+async function sendMessage(){
+
+    const message =
+    messageInput.value.trim();
+
+    if(message==="") return;
+
+    addMessage("user",message);
+
+    messageInput.value="";
+
+    lockInput();
+
+    addLoading();
+
+    try{
+
+        const response =
+        await fetch(API_URL,{
+
+            method:"POST",
+
+            headers:{
+
+                "Content-Type":"application/json"
+
             },
 
-            body: JSON.stringify({
-                message: message
+            body:JSON.stringify({
+
+                message:message
+
             })
 
         });
 
-        if (!response.ok) {
+        if(!response.ok){
+
             throw new Error("Server Error");
+
         }
 
-        const data = await response.json();
+        const data =
+        await response.json();
 
-        // Hapus loading
-        loadingMessage.remove();
+        removeLoading();
 
-        // Tampilkan jawaban AI
-        addMessage("ai", data.reply);
-
-    } catch (error) {
-
-        loadingMessage.remove();
-
-        addMessage(
-            "ai",
-            "❌ Gagal terhubung ke server."
-        );
-
-        console.error("Error:", error);
+        addMessage("ai",data.reply);
 
     }
+
+    catch(error){
+
+        removeLoading();
+
+        addMessage(
+
+            "ai",
+
+            "❌ Maaf, server sedang tidak dapat dihubungi."
+
+        );
+
+        console.error(error);
+
+    }
+
+    unlockInput();
 
 }
 
 // ==========================================
-// Klik Tombol Kirim
+// Klik Tombol
 // ==========================================
 
-sendBtn.addEventListener("click", function () {
-    sendMessage();
-});
+sendBtn.addEventListener(
+
+    "click",
+
+    sendMessage
+
+);
 
 // ==========================================
-// Tekan Enter
+// Enter
 // ==========================================
 
-messageInput.addEventListener("keypress", function (event) {
+messageInput.addEventListener(
 
-    if (event.key === "Enter") {
-        sendMessage();
+    "keydown",
+
+    function(event){
+
+        if(
+
+            event.key==="Enter"
+
+            &&
+
+            !event.shiftKey
+
+        ){
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
     }
 
-});
+);
 
 // ==========================================
-// Fokus ke Input Saat Dibuka
+// Fokus Awal
 // ==========================================
 
-window.onload = function () {
+window.onload=function(){
+
     messageInput.focus();
-};
+
+}
