@@ -5,32 +5,43 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Santonius AI Chatbot</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
 </head>
 
 <body>
 
-    <div class="container">
+    <!-- ======================================================
+         WRAPPER
+    ======================================================= -->
 
-        <!-- ===========================
-             HEADER
-        ============================ -->
+    <div class="wrapper">
 
-        <div class="header">
+        <!-- ==================================================
+             SIDEBAR
+        =================================================== -->
 
-            <div class="header-left">
+        <aside class="sidebar">
 
-                <div class="logo">
+            <!-- Sidebar Header -->
+
+            <div class="sidebar-header">
+
+                <div class="sidebar-logo">
 
                     🤖
 
@@ -38,121 +49,373 @@
 
                 <div>
 
-                    <h1>Santonius AI Chatbot</h1>
+                    <h2>
 
-                    <p>Powered by OpenAI GPT</p>
+                        Santonius AI
 
-                </div>
+                    </h2>
 
-            </div>
+                    <p>
 
-            <div class="status">
+                        GPT Assistant
 
-                <span class="status-dot"></span>
-
-                Online
-
-            </div>
-
-        </div>
-
-        <!-- ===========================
-             CHAT AREA
-        ============================ -->
-
-        <div id="chat-box">
-
-            <div class="message ai">
-
-                <div class="avatar">
-
-                    🤖
-
-                </div>
-
-                <div class="bubble">
-
-                    <strong>Halo 👋</strong>
-
-                    <br><br>
-
-                    Saya adalah <b>Santonius AI</b>.
-
-                    <br><br>
-
-                    Saya siap membantu kamu mengenai:
-
-                    <br><br>
-
-                    • Pemrograman Python
-
-                    <br>
-
-                    • Artificial Intelligence
-
-                    <br>
-
-                    • SQL
-
-                    <br>
-
-                    • Website
-
-                    <br>
-
-                    • Tugas Kuliah
-
-                    <br>
-
-                    • Dan pertanyaan lainnya.
-
-                    <br><br>
-
-                    Silakan mulai bertanya 😊
+                    </p>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- Tombol Chat Baru -->
 
-        <!-- ===========================
-             INPUT AREA
-        ============================ -->
-
-        <div class="input-area">
-
-            <input
-
-                id="message"
-
-                type="text"
-
-                placeholder="Ketik pertanyaan..."
-
-                autocomplete="off"
-
+            <button
+                class="new-chat-btn"
+                id="newChatBtn"
             >
 
-            <button id="sendBtn">
-
-                ➤
+                ➕ Chat Baru
 
             </button>
 
+            <!-- Riwayat -->
+
+            <div class="history-section">
+
+                <h3>
+
+                    Riwayat Percakapan
+
+                </h3>
+
+                <div
+                    class="history-list"
+                    id="historyList"
+                >
+
+                    <!-- Chat History otomatis dari JavaScript -->
+
+                    <div class="history-item active">
+
+                        <div class="history-item-title">
+
+                            Percakapan Baru
+
+                        </div>
+
+                        <div class="history-item-time">
+
+                            Sekarang
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Sidebar Footer -->
+
+            <div class="sidebar-footer">
+
+                <div class="sidebar-version">
+
+                    <span>
+
+                        Santonius AI
+
+                    </span>
+
+                    <br>
+
+                    Version 2.0
+
+                    <br>
+
+                    Powered by OpenAI GPT
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- ==================================================
+             CHAT CONTAINER
+        =================================================== -->
+
+        <div class="container">
+
+            <!-- HEADER -->
+
+            <div class="header">
+
+                <div class="header-left">
+
+                    <div class="logo">
+
+                        🤖
+
+                    </div>
+
+                    <div>
+
+                        <h1>
+
+                            Santonius AI Chatbot
+
+                        </h1>
+
+                        <p>
+
+                            Powered by OpenAI GPT
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="status">
+
+                    <span class="status-dot"></span>
+
+                    Online
+
+                </div>
+
+            </div>
+
+                        <!-- ==========================================
+                 CHAT BOX
+            =========================================== -->
+
+            <div id="chat-box">
+
+                <!-- Pesan Awal AI -->
+
+                <div class="message ai">
+
+                    <div class="avatar">
+
+                        🤖
+
+                    </div>
+
+                    <div class="bubble">
+
+                        <strong>
+
+                            Halo 👋
+
+                        </strong>
+
+                        <br><br>
+
+                        Saya adalah
+
+                        <b>
+
+                            Santonius AI
+
+                        </b>
+
+                        <br><br>
+
+                        Saya siap membantu kamu mengenai:
+
+                        <br><br>
+
+                        ✅ Pemrograman Python
+
+                        <br>
+
+                        ✅ Artificial Intelligence
+
+                        <br>
+
+                        ✅ Website Development
+
+                        <br>
+
+                        ✅ SQL Database
+
+                        <br>
+
+                        ✅ Machine Learning
+
+                        <br>
+
+                        ✅ Deep Learning
+
+                        <br>
+
+                        ✅ Tugas Kuliah
+
+                        <br>
+
+                        ✅ Dan pertanyaan lainnya.
+
+                        <br><br>
+
+                        Silakan mulai bertanya 😊
+
+                        <div class="chat-actions">
+
+                            <button
+                                class="copy-btn"
+                                title="Copy"
+                            >
+
+                                📋 Copy
+
+                            </button>
+
+                            <div class="feedback">
+
+                                <button title="Bagus">
+
+                                    👍
+
+                                </button>
+
+                                <button title="Kurang Tepat">
+
+                                    👎
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================================
+                 SCROLL BUTTON
+            =========================================== -->
+
+            <div
+                class="scroll-bottom"
+                id="scrollBottom"
+                title="Scroll ke bawah"
+            >
+
+                ⬇
+
+            </div>
+
+            <!-- ==========================================
+                 INPUT AREA
+            =========================================== -->
+
+            <div class="input-area">
+
+                <input
+
+                    id="message"
+
+                    type="text"
+
+                    autocomplete="off"
+
+                    placeholder="Tanyakan apa saja..."
+
+                >
+
+                <button
+                    id="sendBtn"
+                    title="Kirim"
+                >
+
+                    ➤
+
+                </button>
+
+            </div>
+
+            <!-- ==========================================
+                 FOOTER
+            =========================================== -->
+
+            <div class="footer">
+
+                Santonius AI dapat membuat kesalahan.
+
+                Selalu periksa kembali informasi penting.
+
+            </div>
+
         </div>
 
-        <!-- ===========================
-             FOOTER
-        ============================ -->
+                <!-- ==========================================
+             TOAST NOTIFICATION
+        =========================================== -->
 
-        <div class="footer">
+        <div
+            class="toast"
+            id="toast"
+        >
 
-            Santonius AI dapat membuat kesalahan. Selalu periksa kembali jawaban penting.
+            Berhasil disalin.
+
+        </div>
+
+        <!-- ==========================================
+             FLOAT BUTTON (Opsional)
+        =========================================== -->
+
+        <div
+            class="float-button"
+            id="floatButton"
+            title="Chat Baru"
+        >
+
+            💬
+
+        </div>
+
+        <!-- ==========================================
+             DROPDOWN MENU (Opsional)
+        =========================================== -->
+
+        <div
+            class="dropdown"
+            style="display:none;"
+        >
+
+            <div class="dropdown-menu">
+
+                <button id="clearHistoryBtn">
+
+                    🗑 Hapus Riwayat
+
+                </button>
+
+                <button id="exportChatBtn">
+
+                    📄 Export Chat
+
+                </button>
+
+                <button id="aboutBtn">
+
+                    ℹ Tentang
+
+                </button>
+
+            </div>
 
         </div>
 
     </div>
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
 
     <script src="script.js"></script>
 
